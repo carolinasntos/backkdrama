@@ -1,33 +1,26 @@
-name: Deploy Front to GitHub Pages
+name: Deploy to Azure with ZipDeploy
 
 on:
   push:
     branches:
-      - main  # o reemplaza con la rama donde trabajas
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: front
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - name: Install zip
+        run: sudo apt-get install zip
 
-      - name: Install dependencies
-        run: npm install
+      - name: Create ZIP file
+        run: zip -r backend.zip . -x "node_modules/*" ".git/*" ".github/*" ".env"
 
-      - name: Build frontend
-        run: npm run build
-
-      - name: Deploy to GitHub Pages
-        run: npm run deploy
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to Azure App Service
+        run: |
+          curl -X POST "https://pymex.scm.azurewebsites.net/api/zipdeploy" \
+          --user "${{ secrets.ZIPDEPLOY_USER }}:${{ secrets.ZIPDEPLOY_PASS }}" \
+          --data-binary @"backend.zip"

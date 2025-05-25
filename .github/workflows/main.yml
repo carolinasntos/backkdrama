@@ -17,7 +17,16 @@ jobs:
         run: npm install
 
       - name: Run Lint
-        run: npm run lint
+        run: |
+          OUTPUT=$(npx eslint . -f json)
+          ERRORS=$(echo "$OUTPUT" | jq 'map(.errorCount) | add')
+          echo "$OUTPUT" | jq
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "❌ ESLint found $ERRORS errors."
+            exit 1
+          else
+            echo "✅ No linting errors."
+          fi
 
       - name: Run Tests
         run: npm test

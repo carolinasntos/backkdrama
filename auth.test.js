@@ -4,7 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 // Importa tu controlador directamente
-import * as userController from './src/controllers/user.controller.js';
+const userController = require("./src/controllers/user.controller.js");
 
 // Crea una app Express temporal para pruebas
 const app = express();

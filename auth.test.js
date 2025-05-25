@@ -1,3 +1,4 @@
+process.env.JWT_SECRET = 'test-secret'; // cualquier valor funciona para tests
 const request = require("supertest");
 const express = require("express");
 const bodyParser = require("body-parser");

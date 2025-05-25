@@ -1,11 +1,9 @@
-// auth.test.js
 const request = require("supertest");
 const express = require("express");
 const bodyParser = require("body-parser");
-const { describe, it, expect, vi, beforeAll, afterAll } = require("vitest");
 
-// 🔧 Mock de los modelos antes de importar el controlador
-vi.mock("./src/models", () => {
+// ✅ Mock manual de '../models'
+jest.mock("./src/models", () => {
   const users = [];
 
   return {
@@ -22,13 +20,11 @@ vi.mock("./src/models", () => {
   };
 });
 
-// ✅ Importar el controlador con require
+// ✅ Importa el controlador normalmente (CommonJS)
 const userController = require("./src/controllers/auth.controller.js");
 
-// Crear la app express de prueba
 const app = express();
 app.use(bodyParser.json());
-
 app.post("/api/register", userController.register);
 app.post("/api/login", userController.login);
 

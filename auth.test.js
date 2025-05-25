@@ -1,48 +1,47 @@
-import request from 'supertest';
-import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
-import express from 'express';
-import bodyParser from 'body-parser';
+// auth.test.js
+const request = require("supertest");
+const express = require("express");
+const bodyParser = require("body-parser");
+const { describe, it, expect, vi, beforeAll, afterAll } = require("vitest");
 
-// Importa tu controlador directamente
-const userController = require("./src/controllers/user.controller.js");
-
-// Crea una app Express temporal para pruebas
-const app = express();
-app.use(bodyParser.json());
-
-app.post('/api/register', userController.register);
-app.post('/api/login', userController.login);
-
-// Mockea la base de datos
-vi.mock('../models', () => {
+// 🔧 Mock de los modelos antes de importar el controlador
+vi.mock("./src/models", () => {
   const users = [];
 
   return {
-    default: {
-      User: {
-        create: async (data) => {
-          const fakeUser = { ...data, id: users.length + 1 };
-          users.push(fakeUser);
-          return fakeUser;
-        },
-        findOne: async ({ where }) => {
-          return users.find(user => user.email === where.email) || null;
-        }
+    User: {
+      create: async (data) => {
+        const fakeUser = { ...data, id: users.length + 1 };
+        users.push(fakeUser);
+        return fakeUser;
+      },
+      findOne: async ({ where }) => {
+        return users.find(user => user.email === where.email) || null;
       }
     }
   };
 });
 
-describe('Auth API', () => {
+// ✅ Importar el controlador con require
+const userController = require("./src/controllers/auth.controller.js");
+
+// Crear la app express de prueba
+const app = express();
+app.use(bodyParser.json());
+
+app.post("/api/register", userController.register);
+app.post("/api/login", userController.login);
+
+describe("Auth API", () => {
   const testUser = {
-    username: 'caro',
-    email: 'caro@example.com',
-    password: '123456'
+    username: "caro",
+    email: "caro@example.com",
+    password: "123456"
   };
 
-  it('registers a new user', async () => {
+  it("registers a new user", async () => {
     const res = await request(app)
-      .post('/api/register')
+      .post("/api/register")
       .send(testUser);
 
     expect(res.statusCode).toBe(201);
@@ -50,21 +49,21 @@ describe('Auth API', () => {
     expect(res.body.user.email).toBe(testUser.email);
   });
 
-  it('logs in the user', async () => {
+  it("logs in the user", async () => {
     const res = await request(app)
-      .post('/api/login')
+      .post("/api/login")
       .send({ email: testUser.email, password: testUser.password });
 
     expect(res.statusCode).toBe(200);
     expect(res.body.token).toBeDefined();
   });
 
-  it('rejects login with incorrect password', async () => {
+  it("rejects login with incorrect password", async () => {
     const res = await request(app)
-      .post('/api/login')
-      .send({ email: testUser.email, password: 'wrongpass' });
+      .post("/api/login")
+      .send({ email: testUser.email, password: "wrongpass" });
 
     expect(res.statusCode).toBe(401);
-    expect(res.body.error).toBe('Contraseña incorrecta');
+    expect(res.body.error).toBe("Contraseña incorrecta");
   });
 });

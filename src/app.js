@@ -7,7 +7,7 @@ app.use(cors()); // <-- AÑADE ESTA LÍNEA
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('Backend en línea 🚀');
+    res.send('Backend en línea 🚀 Carolina');
 });
 // Rutas
 app.use('/api/auth', require('./routes/auth.routes'));

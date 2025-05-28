@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
     return res.status(401).json({ error: 'Token no proporcionado o mal formado' });
   }
 
-  const token = authHeader.split(' ')[1]; // ✅ Esto extrae solo el token sin 'Bearer'
+  const token = authHeader.split(' ')[1]; 
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

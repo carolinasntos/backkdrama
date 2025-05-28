@@ -1,17 +1,17 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); // <-- AÑADE ESTO
+const cors = require('cors'); 
 const app = express();
 const db = require('./models');
 
-app.use(cors()); // <-- AÑADE ESTA LÍNEA
+app.use(cors()); 
 app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Backend en línea Carolina');
 });
 
-const { swaggerUi, specs } = require('./swagger'); // Ajusta si está en src/swagger.js
+const { swaggerUi, specs } = require('./swagger'); 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Rutas

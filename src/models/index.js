@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 /*const sequelize = new Sequelize('db_a25c05_pymex', 'db_a25c05_pymex_admin', 'fynged-xazwi2-Tacrej', {
   dialect: 'mssql',
-  host: 'sql8020.site4now.net', // 👈 ESTA línea es la clave
+  host: 'sql8020.site4now.net', // 
   port: 1433,
   dialectOptions: {
     options: {
@@ -24,7 +24,7 @@ const sequelize = new Sequelize(
     port: 1433,
     dialectOptions: {
       options: {
-        encrypt: process.env.DB_ENCRYPT === 'true', // convierte a booleano
+        encrypt: process.env.DB_ENCRYPT === 'true', 
         trustServerCertificate: true,
       }
     },

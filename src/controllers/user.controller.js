@@ -1,7 +1,7 @@
 // controllers/user.controller.js
 const db = require('../models');
 const User = db.User;
-const UserKDrama = db.UserKDrama;  // 👈 Este nombre exacto
+const UserKDrama = db.UserKDrama; 
 const KDrama = db.KDrama;
 
 exports.getProfile = async (req, res) => {
@@ -9,13 +9,13 @@ exports.getProfile = async (req, res) => {
     console.log("Usuario autenticado con ID:", req.userId);
 
     const user = await User.findByPk(req.userId, {
-      attributes: ['id', 'username', 'email'], // ✅ los datos del usuario
+      attributes: ['id', 'username', 'email'], 
       include: {
         model: UserKDrama,
-        //attributes: ['rating', 'review'], // ✅ info intermedia
+        //attributes: ['rating', 'review'], 
         include: {
           model: KDrama,
-          attributes: ['idKDrama', 'title'] // ✅ usa solo columnas que EXISTEN
+          attributes: ['idKDrama', 'title'] 
         }
       }
     });
@@ -24,7 +24,7 @@ exports.getProfile = async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    console.error("❌ Error en getProfile:", err);
+    console.error("Error en getProfile:", err);
     res.status(500).json({ error: 'Server error', details: err.message });
   }
 };

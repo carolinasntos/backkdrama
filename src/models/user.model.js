@@ -15,5 +15,5 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
 
-  return User; // <- ESTA LÍNEA ES OBLIGATORIA
+  return User; 
 };

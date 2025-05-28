@@ -1,12 +1,12 @@
 // src/controllers/userKdrama.controller.js
 const db = require('../models');
 const UserKDrama = db.UserKDrama;
-const KDrama = db.KDrama; // ✅ importar explícitamente
+const KDrama = db.KDrama; 
 
 exports.createUserKDrama = async (req, res) => {
   try {
     const data = {
-      idUser: req.userId, // viene del token
+      idUser: req.userId, 
       ...req.body
     };
     const registro = await UserKDrama.create(data);
@@ -18,7 +18,7 @@ exports.createUserKDrama = async (req, res) => {
 
 exports.getUserKDramas = async (req, res) => {
     try {
-      console.log("Usuario autenticado con ID:", req.userId); // 👈 esto imprime en consola
+      console.log("Usuario autenticado con ID:", req.userId); 
       const registros = await UserKDrama.findAll({
         where: { idUser: req.userId },
         include: {
@@ -28,7 +28,7 @@ exports.getUserKDramas = async (req, res) => {
       });
       res.json(registros);
     } catch (error) {
-      console.error("Error en getUserKDramas:", error.message); // 👈 log de errores
+      console.error("Error en getUserKDramas:", error.message); 
       res.status(500).json({ error: 'Error al obtener los registros', details: error.message });
     }
   };

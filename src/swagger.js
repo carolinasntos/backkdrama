@@ -3,7 +3,7 @@ const swaggerUi = require('swagger-ui-express');
 
 const options = {
   definition: {
-    openapi: '3.0.0', // 🔴 <--- ESTE CAMPO ES OBLIGATORIO
+    openapi: '3.0.0', 
     info: {
       title: 'KDrama API',
       version: '1.0.0',
@@ -20,7 +20,7 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  apis: ['./src/routes/*.js'], // Ajusta a tu estructura real
+  apis: ['./src/routes/*.js'], 
 };
 
 const specs = swaggerJsdoc(options);

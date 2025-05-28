@@ -1,9 +1,8 @@
-process.env.JWT_SECRET = 'test-secret'; // cualquier valor funciona para tests
+process.env.JWT_SECRET = 'test-secret'; 
 const request = require("supertest");
 const express = require("express");
 const bodyParser = require("body-parser");
 
-// ✅ Mock manual de '../models'
 jest.mock("./src/models", () => {
   const users = [];
 
@@ -21,7 +20,6 @@ jest.mock("./src/models", () => {
   };
 });
 
-// ✅ Importa el controlador normalmente (CommonJS)
 const userController = require("./src/controllers/auth.controller.js");
 
 const app = express();
